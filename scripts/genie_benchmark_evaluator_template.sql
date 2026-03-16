@@ -1,7 +1,7 @@
 -- Manual evaluation template for Genie benchmark runs.
 -- Replace placeholders per benchmark/evaluator.
 
-INSERT INTO corp_fin_actuarial.reporting_fin_actuarial.genie_benchmark_evaluations
+INSERT INTO corporate_finance.reporting_fin_actuarial.genie_benchmark_evaluations
 VALUES
   (
     'B001',

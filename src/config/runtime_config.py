@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class RuntimeConfig:
-    catalog: str = "corp_fin_actuarial"
+    catalog: str = "corporate_finance"
     landing_schema: str = "landing"
     bronze_schema: str = "raw_fin_actuarial"
     silver_schema: str = "conformed_fin_actuarial"

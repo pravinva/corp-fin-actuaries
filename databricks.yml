@@ -1,26 +1,57 @@
 bundle:
-  name: corp-fin-actuarial
+  name: corporate-finance-actuarial
 
 resources:
   jobs:
-    corp_fin_actuarial_daily:
-      name: corp_fin_actuarial_daily
+    corporate_finance_daily:
+      name: corporate_finance_daily
       tasks:
         - task_key: run_finance_actuarial_pipeline
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+            aws_attributes:
+              availability: ON_DEMAND
           spark_python_task:
             python_file: scripts/run_pipeline.py
       max_concurrent_runs: 1
-    corp_fin_actuarial_demo_bootstrap:
-      name: corp_fin_actuarial_demo_bootstrap
+    corporate_finance_sql_setup:
+      name: corporate_finance_sql_setup
+      tasks:
+        - task_key: apply_sql_setup
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+            aws_attributes:
+              availability: ON_DEMAND
+          spark_python_task:
+            python_file: scripts/apply_sql_setup.py
+      max_concurrent_runs: 1
+    corporate_finance_demo_bootstrap:
+      name: corporate_finance_demo_bootstrap
       tasks:
         - task_key: build_demo_state
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+            aws_attributes:
+              availability: ON_DEMAND
           spark_python_task:
             python_file: scripts/build_demo_state.py
       max_concurrent_runs: 1
-    corp_fin_actuarial_genie_benchmark:
-      name: corp_fin_actuarial_genie_benchmark
+    corporate_finance_genie_benchmark:
+      name: corporate_finance_genie_benchmark
       tasks:
         - task_key: run_genie_benchmarks
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+            aws_attributes:
+              availability: ON_DEMAND
           spark_python_task:
             python_file: scripts/genie_benchmark_runner.py
       max_concurrent_runs: 1
@@ -30,8 +61,8 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://<databricks-workspace-url>
+      host: https://e2-demo-field-eng.cloud.databricks.com
   prod:
     mode: production
     workspace:
-      host: https://<databricks-workspace-url>
+      host: https://e2-demo-field-eng.cloud.databricks.com

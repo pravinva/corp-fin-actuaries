@@ -3,10 +3,10 @@
 Use this guide to configure a Genie space that is aligned to Corporate Finance Actuarial consumers.
 
 ## Data Assets to Add
-- `corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics`
-- `corp_fin_actuarial.reporting_fin_actuarial.genie_dq_status`
-- `corp_fin_actuarial.reporting_fin_actuarial.portfolio_trend_metrics`
-- `corp_fin_actuarial.reporting_fin_actuarial.valuation_kpi_snapshot`
+- `corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics`
+- `corporate_finance.reporting_fin_actuarial.genie_dq_status`
+- `corporate_finance.reporting_fin_actuarial.portfolio_trend_metrics`
+- `corporate_finance.reporting_fin_actuarial.valuation_kpi_snapshot`
 
 ## Required General Instructions (Paste into Genie)
 1. This space is for Corporate Finance Actuarial outcomes, not pricing analytics.
@@ -23,7 +23,7 @@ SELECT
   as_at_date,
   portfolio_code,
   movement_amount
-FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics
+FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics
 ORDER BY as_at_date DESC, ABS(movement_amount) DESC
 LIMIT 20;
 ```
@@ -36,7 +36,7 @@ SELECT
   SUM(gross_claim_amount) AS gross_claim_amount,
   SUM(net_claim_amount) AS net_claim_amount,
   SUM(reinsurance_impact) AS reinsurance_impact
-FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics
+FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics
 GROUP BY as_at_date, portfolio_code
 ORDER BY as_at_date DESC, portfolio_code;
 ```
@@ -44,7 +44,7 @@ ORDER BY as_at_date DESC, portfolio_code;
 ### Example 3: Latest data quality status
 ```sql
 SELECT *
-FROM corp_fin_actuarial.reporting_fin_actuarial.genie_dq_status
+FROM corporate_finance.reporting_fin_actuarial.genie_dq_status
 ORDER BY dq_run_timestamp DESC, dataset_name
 LIMIT 20;
 ```

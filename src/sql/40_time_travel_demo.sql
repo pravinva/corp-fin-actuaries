@@ -2,7 +2,7 @@
 -- Run pipeline multiple times (with changed source data) to create versions.
 
 -- 1) Inspect table history.
-DESCRIBE HISTORY corp_fin_actuarial.reporting_fin_actuarial.valuation_movement_bridge;
+DESCRIBE HISTORY corporate_finance.reporting_fin_actuarial.valuation_movement_bridge;
 
 -- 2) Query current snapshot.
 SELECT
@@ -12,7 +12,7 @@ SELECT
   closing_liability,
   movement_amount,
   movement_ratio
-FROM corp_fin_actuarial.reporting_fin_actuarial.valuation_movement_bridge
+FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge
 ORDER BY as_at_date DESC, portfolio_code
 LIMIT 100;
 
@@ -24,18 +24,18 @@ SELECT
   closing_liability,
   movement_amount,
   movement_ratio
-FROM corp_fin_actuarial.reporting_fin_actuarial.valuation_movement_bridge VERSION AS OF 1
+FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge VERSION AS OF 1
 ORDER BY as_at_date DESC, portfolio_code
 LIMIT 100;
 
 -- 4) Compare current vs previous values.
 WITH current_snapshot AS (
   SELECT portfolio_code, as_at_date, movement_amount
-  FROM corp_fin_actuarial.reporting_fin_actuarial.valuation_movement_bridge
+  FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge
 ),
 previous_snapshot AS (
   SELECT portfolio_code, as_at_date, movement_amount
-  FROM corp_fin_actuarial.reporting_fin_actuarial.valuation_movement_bridge VERSION AS OF 1
+  FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge VERSION AS OF 1
 )
 SELECT
   c.portfolio_code,

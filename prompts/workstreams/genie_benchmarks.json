@@ -2,35 +2,35 @@
   {
     "benchmark_id": "B001",
     "benchmark_question": "Which portfolios have the largest liability movement in the latest as-at period?",
-    "expected_sql": "SELECT portfolio_code, as_at_date, movement_amount FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics QUALIFY ROW_NUMBER() OVER (ORDER BY as_at_date DESC) >= 1 ORDER BY as_at_date DESC, ABS(movement_amount) DESC LIMIT 10",
+    "expected_sql": "SELECT portfolio_code, as_at_date, movement_amount FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics QUALIFY ROW_NUMBER() OVER (ORDER BY as_at_date DESC) >= 1 ORDER BY as_at_date DESC, ABS(movement_amount) DESC LIMIT 10",
     "benchmark_domain": "valuation_movement",
     "priority": "high"
   },
   {
     "benchmark_id": "B002",
     "benchmark_question": "Show gross versus net claim amounts by portfolio for the latest as-at date.",
-    "expected_sql": "SELECT portfolio_code, as_at_date, SUM(gross_claim_amount) AS gross_claim_amount, SUM(net_claim_amount) AS net_claim_amount, SUM(reinsurance_impact) AS reinsurance_impact FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics GROUP BY portfolio_code, as_at_date ORDER BY as_at_date DESC, portfolio_code",
+    "expected_sql": "SELECT portfolio_code, as_at_date, SUM(gross_claim_amount) AS gross_claim_amount, SUM(net_claim_amount) AS net_claim_amount, SUM(reinsurance_impact) AS reinsurance_impact FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics GROUP BY portfolio_code, as_at_date ORDER BY as_at_date DESC, portfolio_code",
     "benchmark_domain": "gross_net_liability",
     "priority": "high"
   },
   {
     "benchmark_id": "B003",
     "benchmark_question": "Which dataset has the highest failed data quality checks in the latest run?",
-    "expected_sql": "SELECT dataset_name, dq_run_timestamp, (claim_amount_fail_count + report_after_loss_fail_count + claim_id_fail_count + policy_id_fail_count + inception_expiry_fail_count) AS total_failures FROM corp_fin_actuarial.reporting_fin_actuarial.genie_dq_status ORDER BY dq_run_timestamp DESC, total_failures DESC LIMIT 5",
+    "expected_sql": "SELECT dataset_name, dq_run_timestamp, (claim_amount_fail_count + report_after_loss_fail_count + claim_id_fail_count + policy_id_fail_count + inception_expiry_fail_count) AS total_failures FROM corporate_finance.reporting_fin_actuarial.genie_dq_status ORDER BY dq_run_timestamp DESC, total_failures DESC LIMIT 5",
     "benchmark_domain": "data_quality",
     "priority": "high"
   },
   {
     "benchmark_id": "B004",
     "benchmark_question": "Is close readiness flagged as true for the latest as-at date?",
-    "expected_sql": "SELECT as_at_date, close_readiness_flag FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics ORDER BY as_at_date DESC LIMIT 10",
+    "expected_sql": "SELECT as_at_date, close_readiness_flag FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics ORDER BY as_at_date DESC LIMIT 10",
     "benchmark_domain": "close_readiness",
     "priority": "medium"
   },
   {
     "benchmark_id": "B005",
     "benchmark_question": "What is the movement ratio trend by portfolio over the last two as-at periods?",
-    "expected_sql": "WITH ranked AS (SELECT portfolio_code, as_at_date, movement_ratio, ROW_NUMBER() OVER (PARTITION BY portfolio_code ORDER BY as_at_date DESC) AS rn FROM corp_fin_actuarial.reporting_fin_actuarial.genie_finance_actuarial_metrics) SELECT portfolio_code, as_at_date, movement_ratio FROM ranked WHERE rn <= 2 ORDER BY portfolio_code, as_at_date DESC",
+    "expected_sql": "WITH ranked AS (SELECT portfolio_code, as_at_date, movement_ratio, ROW_NUMBER() OVER (PARTITION BY portfolio_code ORDER BY as_at_date DESC) AS rn FROM corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics) SELECT portfolio_code, as_at_date, movement_ratio FROM ranked WHERE rn <= 2 ORDER BY portfolio_code, as_at_date DESC",
     "benchmark_domain": "trend_analysis",
     "priority": "medium"
   }

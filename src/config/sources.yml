@@ -1,17 +1,17 @@
 sources:
   policy:
-    source_table: "corp_fin_actuarial.landing.policy_extract"
+    source_table: "corporate_finance.landing.policy_extract"
     primary_key: "policy_id"
     as_at_column: "as_at_date"
   claims:
-    source_table: "corp_fin_actuarial.landing.claims_extract"
+    source_table: "corporate_finance.landing.claims_extract"
     primary_key: "claim_id"
     as_at_column: "as_at_date"
   reinsurance:
-    source_table: "corp_fin_actuarial.landing.reinsurance_extract"
+    source_table: "corporate_finance.landing.reinsurance_extract"
     primary_key: "treaty_id"
     as_at_column: "as_at_date"
   finance:
-    source_table: "corp_fin_actuarial.landing.finance_extract"
+    source_table: "corporate_finance.landing.finance_extract"
     primary_key: "journal_id"
     as_at_column: "as_at_date"

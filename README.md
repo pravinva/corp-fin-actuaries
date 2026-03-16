@@ -36,6 +36,7 @@ The initial code scaffold supports:
 To create all demo datasets and multiple table versions for time travel:
 
 - `python3 scripts/build_demo_state.py`
+- `python3 scripts/execute_sql_via_warehouse.py` (executes directly on Field Eng workspace SQL warehouse using `DEFAULT` profile)
 
 ## Demo Pack
 
