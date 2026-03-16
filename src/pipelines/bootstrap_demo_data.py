@@ -26,9 +26,9 @@ def create_policy_extract(spark: SparkSession, as_at_date: str) -> None:
                 f"POL{idx:04d}",
                 f"CUST{(idx % 15) + 1:03d}",
                 _portfolio_codes()[idx % len(_portfolio_codes())],
-                inception.isoformat(),
-                expiry.isoformat(),
-                as_at_date,
+                inception,
+                expiry,
+                start_date,
             )
         )
 
@@ -49,10 +49,10 @@ def create_claims_extract(spark: SparkSession, as_at_date: str, movement_multipl
                 f"CLM{idx:05d}",
                 f"POL{((idx % 40) + 1):04d}",
                 _portfolio_codes()[idx % len(_portfolio_codes())],
-                loss_date.isoformat(),
-                report_date.isoformat(),
+                loss_date,
+                report_date,
                 claim_amount,
-                as_at_date,
+                as_at,
             )
         )
 
@@ -66,10 +66,11 @@ def create_claims_extract(spark: SparkSession, as_at_date: str, movement_multipl
 
 def create_reinsurance_extract(spark: SparkSession, as_at_date: str, recovery_ratio: float = 0.2) -> None:
     rows = []
+    as_at = date.fromisoformat(as_at_date)
     for idx in range(1, 61):
         claim_amount = 800 + (idx * 35)
         recovery = round(claim_amount * recovery_ratio, 2)
-        rows.append((f"TRT{idx:05d}", f"CLM{idx:05d}", recovery, as_at_date))
+        rows.append((f"TRT{idx:05d}", f"CLM{idx:05d}", recovery, as_at))
 
     schema = "treaty_id string, claim_id string, reinsurance_recovery_amount double, as_at_date date"
     df = spark.createDataFrame(rows, schema=schema)
@@ -78,11 +79,12 @@ def create_reinsurance_extract(spark: SparkSession, as_at_date: str, recovery_ra
 
 def create_finance_extract(spark: SparkSession, as_at_date: str, movement_bias: float = 1.0) -> None:
     rows = []
+    as_at = date.fromisoformat(as_at_date)
     for idx, portfolio in enumerate(_portfolio_codes(), start=1):
         opening = 1_000_000 + (idx * 110_000)
         movement = round((50_000 + (idx * 7_500)) * movement_bias, 2)
         closing = opening + movement
-        rows.append((f"JRNL{idx:04d}", portfolio, opening, closing, movement, as_at_date))
+        rows.append((f"JRNL{idx:04d}", portfolio, opening, closing, movement, as_at))
 
     schema = (
         "journal_id string, portfolio_code string, opening_liability double, "

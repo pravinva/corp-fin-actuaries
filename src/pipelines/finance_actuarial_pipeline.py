@@ -21,7 +21,10 @@ def load_table(spark: SparkSession, table_name: str) -> DataFrame:
 
 
 def save_table(df: DataFrame, schema_name: str, table_name: str, mode: str = "overwrite") -> None:
-    df.write.mode(mode).saveAsTable(_fqdn(schema_name, table_name))
+    writer = df.write.mode(mode)
+    if mode == "overwrite":
+        writer = writer.option("overwriteSchema", "true")
+    writer.saveAsTable(_fqdn(schema_name, table_name))
 
 
 def build_claims_silver(claims_raw: DataFrame, reinsurance_raw: DataFrame) -> DataFrame:
