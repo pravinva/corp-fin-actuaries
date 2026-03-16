@@ -99,10 +99,10 @@ def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance
         movement_bridge.select(
             "portfolio_code",
             "as_at_date",
-            "opening_liability",
-            "closing_liability",
-            "movement_amount",
-            "movement_ratio",
+            F.col("opening_liability").cast("decimal(18,1)").alias("opening_liability"),
+            F.col("closing_liability").cast("decimal(21,3)").alias("closing_liability"),
+            F.col("movement_amount").cast("decimal(20,2)").alias("movement_amount"),
+            F.col("movement_ratio").cast("decimal(38,19)").alias("movement_ratio"),
         )
         .withColumn("snapshot_timestamp", F.current_timestamp())
     )
