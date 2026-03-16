@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-WAREHOUSE_ID = "30d6e63b35f828c5"
+WAREHOUSE_ID = "4b9b953939869799"
 PROFILE = "DEFAULT"
 
 SQL_FILES_IN_ORDER = [

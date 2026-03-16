@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "config": {
+    "sample_questions": [
+      {
+        "id": "11111111111111111111111111111111",
+        "question": [
+          "Which portfolios have the largest liability movement in the latest as-at period?"
+        ]
+      },
+      {
+        "id": "22222222222222222222222222222222",
+        "question": [
+          "Show gross versus net claim amounts by portfolio for the latest as-at date."
+        ]
+      },
+      {
+        "id": "33333333333333333333333333333333",
+        "question": [
+          "Which dataset has the highest failed data quality checks in the latest run?"
+        ]
+      },
+      {
+        "id": "44444444444444444444444444444444",
+        "question": [
+          "Is close readiness flagged as true for the latest as-at date?"
+        ]
+      },
+      {
+        "id": "55555555555555555555555555555555",
+        "question": [
+          "What is the movement ratio trend by portfolio over the last two as-at periods?"
+        ]
+      }
+    ]
+  },
+  "data_sources": {
+    "tables": [
+      {
+        "identifier": "corporate_finance.reporting_fin_actuarial.genie_dq_status"
+      },
+      {
+        "identifier": "corporate_finance.reporting_fin_actuarial.genie_finance_actuarial_metrics"
+      }
+    ]
+  }
+}
