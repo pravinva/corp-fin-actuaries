@@ -12,7 +12,7 @@ This runbook provides a structured demonstration for Corporate Finance Actuarial
 
 1. **Run setup and pipeline**
    - Execute `src/sql/00_create_schemas.sql`.
-   - Run the pipeline (`python scripts/run_pipeline.py`) at least twice with changed source input.
+   - Run `python3 scripts/build_demo_state.py` to generate all landing/conformed/reporting data and multiple table versions.
 
 2. **Governance controls**
    - Execute `src/sql/20_governance_setup.sql`.
@@ -29,7 +29,9 @@ This runbook provides a structured demonstration for Corporate Finance Actuarial
 
 5. **Genie enablement**
    - Execute `src/sql/50_genie_setup.sql`.
+   - Execute `src/sql/51_genie_benchmark_tables.sql`.
    - Configure Genie space using `prompts/workstreams/genie_space_authoring_guide.md`.
+   - Run `python3 scripts/genie_benchmark_runner.py` to generate expected-result benchmark evidence.
    - Run benchmark questions and show response traceability.
 
 ## Evidence Checklist

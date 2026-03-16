@@ -107,10 +107,10 @@ def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance
 
 
 def run_pipeline(spark: SparkSession) -> None:
-    claims_raw = load_table(spark, "landing.claims_extract")
-    policy_raw = load_table(spark, "landing.policy_extract")
-    reinsurance_raw = load_table(spark, "landing.reinsurance_extract")
-    finance_raw = load_table(spark, "landing.finance_extract")
+    claims_raw = load_table(spark, _fqdn(CONFIG.landing_schema, "claims_extract"))
+    policy_raw = load_table(spark, _fqdn(CONFIG.landing_schema, "policy_extract"))
+    reinsurance_raw = load_table(spark, _fqdn(CONFIG.landing_schema, "reinsurance_extract"))
+    finance_raw = load_table(spark, _fqdn(CONFIG.landing_schema, "finance_extract"))
 
     claims_silver = build_claims_silver(claims_raw, reinsurance_raw)
     policy_silver = build_policy_silver(policy_raw)

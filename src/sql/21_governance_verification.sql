@@ -2,6 +2,7 @@
 
 -- 1) Validate grants at catalog and schema level.
 SHOW GRANTS ON CATALOG corp_fin_actuarial;
+SHOW GRANTS ON SCHEMA corp_fin_actuarial.landing;
 SHOW GRANTS ON SCHEMA corp_fin_actuarial.raw_fin_actuarial;
 SHOW GRANTS ON SCHEMA corp_fin_actuarial.conformed_fin_actuarial;
 SHOW GRANTS ON SCHEMA corp_fin_actuarial.reporting_fin_actuarial;

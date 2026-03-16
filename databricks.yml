@@ -10,6 +10,20 @@ resources:
           spark_python_task:
             python_file: scripts/run_pipeline.py
       max_concurrent_runs: 1
+    corp_fin_actuarial_demo_bootstrap:
+      name: corp_fin_actuarial_demo_bootstrap
+      tasks:
+        - task_key: build_demo_state
+          spark_python_task:
+            python_file: scripts/build_demo_state.py
+      max_concurrent_runs: 1
+    corp_fin_actuarial_genie_benchmark:
+      name: corp_fin_actuarial_genie_benchmark
+      tasks:
+        - task_key: run_genie_benchmarks
+          spark_python_task:
+            python_file: scripts/genie_benchmark_runner.py
+      max_concurrent_runs: 1
 
 targets:
   dev:

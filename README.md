@@ -31,6 +31,12 @@ The initial code scaffold supports:
    - `python scripts/run_pipeline.py`
 4. Execute SQL setup scripts in `src/sql/` within your Databricks workspace.
 
+### Full demo data bootstrap
+
+To create all demo datasets and multiple table versions for time travel:
+
+- `python3 scripts/build_demo_state.py`
+
 ## Demo Pack
 
 - Governance setup: `src/sql/20_governance_setup.sql`
@@ -40,6 +46,8 @@ The initial code scaffold supports:
 - Genie semantic setup: `src/sql/50_genie_setup.sql`
 - Genie authoring guide: `prompts/workstreams/genie_space_authoring_guide.md`
 - End-to-end runbook: `docs/governance_quality_timetravel_genie_demo.md`
+- Bootstrap + benchmark runbook: `docs/bootstrap_and_benchmark_runbook.md`
+- Genie benchmarks: `prompts/workstreams/genie_benchmarks.json`
 
 ## Notes
 

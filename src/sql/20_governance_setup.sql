@@ -3,6 +3,10 @@
 
 GRANT USE CATALOG ON CATALOG corp_fin_actuarial TO `corp_fin_actuarial_users`;
 
+-- Landing schema is operational input zone.
+GRANT USE SCHEMA ON SCHEMA corp_fin_actuarial.landing TO `corp_fin_actuarial_engineers`;
+GRANT SELECT ON SCHEMA corp_fin_actuarial.landing TO `corp_fin_actuarial_engineers`;
+
 -- Raw layer is restricted to engineering and platform teams.
 GRANT USE SCHEMA ON SCHEMA corp_fin_actuarial.raw_fin_actuarial TO `corp_fin_actuarial_engineers`;
 GRANT SELECT ON SCHEMA corp_fin_actuarial.raw_fin_actuarial TO `corp_fin_actuarial_engineers`;
@@ -22,6 +26,8 @@ GRANT SELECT ON SCHEMA corp_fin_actuarial.quarantine_fin_actuarial TO `corp_fin_
 -- Governance intent documented in comments for discoverability.
 COMMENT ON SCHEMA corp_fin_actuarial.raw_fin_actuarial IS
 'Raw policy, claims, reinsurance and finance landed data. Restricted access.';
+COMMENT ON SCHEMA corp_fin_actuarial.landing IS
+'Landing input zone for synthetic and source extracts before conformance pipeline.';
 COMMENT ON SCHEMA corp_fin_actuarial.conformed_fin_actuarial IS
 'Conformed actuarial-finance data for reusable enterprise consumption.';
 COMMENT ON SCHEMA corp_fin_actuarial.reporting_fin_actuarial IS
