@@ -1,0 +1,23 @@
+bundle:
+  name: corp-fin-actuarial
+
+resources:
+  jobs:
+    corp_fin_actuarial_daily:
+      name: corp_fin_actuarial_daily
+      tasks:
+        - task_key: run_finance_actuarial_pipeline
+          spark_python_task:
+            python_file: scripts/run_pipeline.py
+      max_concurrent_runs: 1
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://<databricks-workspace-url>
+  prod:
+    mode: production
+    workspace:
+      host: https://<databricks-workspace-url>

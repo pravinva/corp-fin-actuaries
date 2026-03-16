@@ -1,0 +1,9 @@
+[project]
+name = "corp-fin-actuaries"
+version = "0.1.0"
+description = "Corporate Finance Actuarial Databricks implementation scaffold"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools]
+packages = ["src"]
