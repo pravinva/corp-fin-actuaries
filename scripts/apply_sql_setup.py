@@ -45,7 +45,22 @@ def _split_statements(sql_text: str) -> list[str]:
 
 def main() -> None:
     spark = SparkSession.builder.appName("corporate-finance-sql-setup").getOrCreate()
-    repo_root = Path(__file__).resolve().parents[1]
+    candidates = []
+    if "__file__" in globals():
+        candidates.append(Path(__file__).resolve().parents[1])
+    candidates.extend(
+        [
+            Path.cwd(),
+            Path("/Workspace/Users/pravin.varma@databricks.com/.bundle/corporate-finance-actuarial/dev/files"),
+        ]
+    )
+    repo_root = None
+    for candidate in candidates:
+        if (candidate / "src" / "sql").exists():
+            repo_root = candidate
+            break
+    if repo_root is None:
+        raise FileNotFoundError("Could not locate repository root with src/sql directory")
 
     for file_path in SQL_FILES_IN_ORDER:
         sql_text = _read_sql_text(repo_root, file_path)

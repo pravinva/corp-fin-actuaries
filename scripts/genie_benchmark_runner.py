@@ -1,10 +1,33 @@
 """Materialize Genie benchmark catalog and expected result evidence."""
 
 import json
+import sys
 from pathlib import Path
 
 from pyspark.sql import Row, SparkSession
 from pyspark.sql import functions as F
+
+
+def _bootstrap_sys_path() -> None:
+    candidates = []
+    if "__file__" in globals():
+        candidates.append(Path(__file__).resolve().parents[1])
+    candidates.extend(
+        [
+            Path.cwd(),
+            Path("/Workspace/Users/pravin.varma@databricks.com/.bundle/corporate-finance-actuarial/dev/files"),
+        ]
+    )
+    for candidate in candidates:
+        src_path = candidate / "src"
+        if src_path.exists():
+            candidate_str = str(candidate)
+            if candidate_str not in sys.path:
+                sys.path.insert(0, candidate_str)
+            break
+
+
+_bootstrap_sys_path()
 
 from src.config.runtime_config import CONFIG
 
@@ -14,7 +37,20 @@ def _fqdn(schema_name: str, table_name: str) -> str:
 
 
 def _benchmarks_path() -> Path:
-    return Path(__file__).resolve().parents[1] / "prompts" / "workstreams" / "genie_benchmarks.json"
+    candidates = []
+    if "__file__" in globals():
+        candidates.append(Path(__file__).resolve().parents[1])
+    candidates.extend(
+        [
+            Path.cwd(),
+            Path("/Workspace/Users/pravin.varma@databricks.com/.bundle/corporate-finance-actuarial/dev/files"),
+        ]
+    )
+    for candidate in candidates:
+        path = candidate / "prompts" / "workstreams" / "genie_benchmarks.json"
+        if path.exists():
+            return path
+    raise FileNotFoundError("Could not locate prompts/workstreams/genie_benchmarks.json")
 
 
 def load_benchmarks() -> list[dict]:
