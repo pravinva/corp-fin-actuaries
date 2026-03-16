@@ -31,8 +31,14 @@ def split_valid_and_quarantine(df: DataFrame, rule_columns: list[str]) -> tuple[
 
 def build_rule_summary(df: DataFrame, rule_columns: list[str], dataset_name: str) -> DataFrame:
     """Create a quality summary table for monitoring and controls."""
-    aggregations = [
-        F.sum(F.when(F.col(rule), F.lit(1)).otherwise(F.lit(0))).alias(f"{rule}_pass_count")
-        for rule in rule_columns
-    ]
-    return df.agg(*aggregations).withColumn("dataset_name", F.lit(dataset_name))
+    aggregations = [F.count(F.lit(1)).alias("total_record_count")]
+    for rule in rule_columns:
+        pass_col = F.sum(F.when(F.col(rule), F.lit(1)).otherwise(F.lit(0))).alias(f"{rule}_pass_count")
+        fail_col = F.sum(F.when(~F.col(rule), F.lit(1)).otherwise(F.lit(0))).alias(f"{rule}_fail_count")
+        aggregations.extend([pass_col, fail_col])
+
+    return (
+        df.agg(*aggregations)
+        .withColumn("dataset_name", F.lit(dataset_name))
+        .withColumn("dq_run_timestamp", F.current_timestamp())
+    )

@@ -25,7 +25,7 @@ def save_table(df: DataFrame, schema_name: str, table_name: str, mode: str = "ov
 
 
 def build_claims_silver(claims_raw: DataFrame, reinsurance_raw: DataFrame) -> DataFrame:
-    claims_rules_df = apply_claims_rules(claims_raw)
+    claims_rules_df = apply_claims_rules(claims_raw).withColumn("load_timestamp", F.current_timestamp())
     rule_columns = [
         "dq_claim_amount_non_negative",
         "dq_report_after_loss",
@@ -34,7 +34,7 @@ def build_claims_silver(claims_raw: DataFrame, reinsurance_raw: DataFrame) -> Da
     valid_claims_df, quarantine_claims_df = split_valid_and_quarantine(claims_rules_df, rule_columns)
     save_table(quarantine_claims_df, CONFIG.quarantine_schema, "claims_dq_quarantine")
     summary_df = build_rule_summary(claims_rules_df, rule_columns, "claims")
-    save_table(summary_df, CONFIG.gold_schema, "dq_claims_summary")
+    save_table(summary_df, CONFIG.gold_schema, "dq_claims_summary", mode="append")
 
     reinsurance_cols = ["claim_id", "reinsurance_recovery_amount"]
     return (
@@ -44,18 +44,17 @@ def build_claims_silver(claims_raw: DataFrame, reinsurance_raw: DataFrame) -> Da
             how="left",
         )
         .withColumn("net_claim_amount", F.col("claim_amount") - F.coalesce(F.col("reinsurance_recovery_amount"), F.lit(0)))
-        .withColumn("load_timestamp", F.current_timestamp())
     )
 
 
 def build_policy_silver(policy_raw: DataFrame) -> DataFrame:
-    policy_rules_df = apply_policy_rules(policy_raw)
+    policy_rules_df = apply_policy_rules(policy_raw).withColumn("load_timestamp", F.current_timestamp())
     rule_columns = ["dq_policy_id_present", "dq_inception_before_expiry"]
     valid_policy_df, quarantine_policy_df = split_valid_and_quarantine(policy_rules_df, rule_columns)
     save_table(quarantine_policy_df, CONFIG.quarantine_schema, "policy_dq_quarantine")
     summary_df = build_rule_summary(policy_rules_df, rule_columns, "policy")
-    save_table(summary_df, CONFIG.gold_schema, "dq_policy_summary")
-    return valid_policy_df.withColumn("load_timestamp", F.current_timestamp())
+    save_table(summary_df, CONFIG.gold_schema, "dq_policy_summary", mode="append")
+    return valid_policy_df
 
 
 def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance_raw: DataFrame) -> None:
@@ -91,6 +90,20 @@ def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance
         .withColumn("close_readiness_flag", (F.col("policy_record_count") > 0) & (F.col("claim_record_count") > 0))
     )
     save_table(close_readiness, CONFIG.gold_schema, "close_readiness_indicators")
+
+    # Persist run snapshots for simple time-travel demos in reporting views.
+    snapshot_df = (
+        movement_bridge.select(
+            "portfolio_code",
+            "as_at_date",
+            "opening_liability",
+            "closing_liability",
+            "movement_amount",
+            "movement_ratio",
+        )
+        .withColumn("snapshot_timestamp", F.current_timestamp())
+    )
+    save_table(snapshot_df, CONFIG.gold_schema, "valuation_movement_snapshots", mode="append")
 
 
 def run_pipeline(spark: SparkSession) -> None:
