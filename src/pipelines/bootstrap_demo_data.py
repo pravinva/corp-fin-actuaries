@@ -34,7 +34,11 @@ def create_policy_extract(spark: SparkSession, as_at_date: str) -> None:
 
     schema = "policy_id string, customer_id string, portfolio_code string, inception_date date, expiry_date date, as_at_date date"
     df = spark.createDataFrame(rows, schema=schema)
-    df.write.mode("overwrite").saveAsTable(_fqdn(CONFIG.landing_schema, "policy_extract"))
+    (
+        df.write.mode("overwrite")
+        .option("overwriteSchema", "true")
+        .saveAsTable(_fqdn(CONFIG.landing_schema, "policy_extract"))
+    )
 
 
 def create_claims_extract(spark: SparkSession, as_at_date: str, movement_multiplier: float = 1.0) -> None:
@@ -61,7 +65,11 @@ def create_claims_extract(spark: SparkSession, as_at_date: str, movement_multipl
         "report_date date, claim_amount double, as_at_date date"
     )
     df = spark.createDataFrame(rows, schema=schema)
-    df.write.mode("overwrite").saveAsTable(_fqdn(CONFIG.landing_schema, "claims_extract"))
+    (
+        df.write.mode("overwrite")
+        .option("overwriteSchema", "true")
+        .saveAsTable(_fqdn(CONFIG.landing_schema, "claims_extract"))
+    )
 
 
 def create_reinsurance_extract(spark: SparkSession, as_at_date: str, recovery_ratio: float = 0.2) -> None:
@@ -74,7 +82,11 @@ def create_reinsurance_extract(spark: SparkSession, as_at_date: str, recovery_ra
 
     schema = "treaty_id string, claim_id string, reinsurance_recovery_amount double, as_at_date date"
     df = spark.createDataFrame(rows, schema=schema)
-    df.write.mode("overwrite").saveAsTable(_fqdn(CONFIG.landing_schema, "reinsurance_extract"))
+    (
+        df.write.mode("overwrite")
+        .option("overwriteSchema", "true")
+        .saveAsTable(_fqdn(CONFIG.landing_schema, "reinsurance_extract"))
+    )
 
 
 def create_finance_extract(spark: SparkSession, as_at_date: str, movement_bias: float = 1.0) -> None:
@@ -91,7 +103,11 @@ def create_finance_extract(spark: SparkSession, as_at_date: str, movement_bias: 
         "closing_liability double, movement_amount double, as_at_date date"
     )
     df = spark.createDataFrame(rows, schema=schema)
-    df.write.mode("overwrite").saveAsTable(_fqdn(CONFIG.landing_schema, "finance_extract"))
+    (
+        df.write.mode("overwrite")
+        .option("overwriteSchema", "true")
+        .saveAsTable(_fqdn(CONFIG.landing_schema, "finance_extract"))
+    )
 
 
 def bootstrap_demo_data(
