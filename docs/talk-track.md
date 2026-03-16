@@ -14,6 +14,12 @@
 4. SAS transition path and implementation plan (8 min)
 5. Q&A (15 min)
 
+## Demo Assets (Quick Access)
+
+- Interactive demo guide: `docs/corporate_finance_demo_interactive.html`
+- Copy-ready SQL worksheet: `docs/corporate_finance_demo_worksheet.sql`
+- Tip: keep both open side-by-side during the live walkthrough.
+
 ## Opening Narrative (What to Say)
 
 Use this framing:

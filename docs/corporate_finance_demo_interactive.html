@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Corporate Finance Actuarial Demo Guide</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #22c55e;
+      --accent-2: #38bdf8;
+      --border: #374151;
+      --code: #0b1220;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #0b1022 0%, #111827 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: rgba(17, 24, 39, 0.88);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    h1, h2, h3 { margin: 0 0 10px; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.15rem; color: #d1d5db; }
+    p, li { color: #d1d5db; }
+    .muted { color: var(--muted); }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+    .badge {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #bfdbfe;
+      background: #0b1324;
+    }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: #111827;
+      color: #e5e7eb;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn.primary { border-color: #0ea5e9; background: #082f49; }
+    .btn.success { border-color: #22c55e; background: #052e16; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .card h3 { font-size: 1rem; margin-bottom: 8px; }
+    .card ul { margin: 8px 0 0 18px; padding: 0; }
+    details {
+      background: rgba(31, 41, 55, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    details + details { margin-top: 10px; }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #dbeafe;
+    }
+    pre {
+      margin: 10px 0;
+      background: var(--code);
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      padding: 10px;
+      overflow-x: auto;
+      font-size: 12px;
+      color: #dbeafe;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .copy-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+    .tiny {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .section {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(17, 24, 39, 0.78);
+    }
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin: 8px 0;
+      background: #111827;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Corporate Finance Actuarial Demo (Interactive)</h1>
+      <p class="muted">
+        Audience: Suncorp Corporate Finance Actuarial. This guide is focused on governance, quality, time travel,
+        portfolio monitoring, and Genie for finance-actuarial outcomes.
+      </p>
+      <div class="badges">
+        <span class="badge">Catalog: corporate_finance</span>
+        <span class="badge">Warehouse: 4b9b953939869799</span>
+        <span class="badge">Jobs: serverless_default</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="./corporate_finance_demo_worksheet.sql" target="_blank">Open SQL Worksheet</a>
+        <a class="btn success" href="./corporate_finance_demo_worksheet.sql" download>Download SQL Worksheet</a>
+        <button class="btn" onclick="copyText('openWorksheetCmd')">Copy open command</button>
+      </div>
+      <pre id="openWorksheetCmd"><code>open "/Users/pravin.varma/Documents/Demo/corp-fin-actuaries/docs/corporate_finance_demo_worksheet.sql"</code></pre>
+      <div class="tiny">Tip: Keep this page and the SQL worksheet side by side during the demo.</div>
+    </section>
+
+    <section class="section">
+      <h2>Genie Questions (Known Good)</h2>
+      <div class="question">1) Which portfolios have the largest liability movement in the latest as-at period?</div>
+      <div class="question">2) Show gross versus net claim amounts by portfolio for the latest as-at date.</div>
+      <div class="question">3) Which dataset has the highest failed data quality checks in the latest run?</div>
+      <div class="question">4) Is close readiness flagged as true for the latest as-at date?</div>
+      <div class="question">5) What is the movement ratio trend by portfolio over the last two as-at periods?</div>
+      <button class="btn" onclick="copyText('genieQuestions')">Copy all Genie questions</button>
+      <pre id="genieQuestions"><code>Which portfolios have the largest liability movement in the latest as-at period?
+Show gross versus net claim amounts by portfolio for the latest as-at date.
+Which dataset has the highest failed data quality checks in the latest run?
+Is close readiness flagged as true for the latest as-at date?
+What is the movement ratio trend by portfolio over the last two as-at periods?</code></pre>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h3>Data Foundation</h3>
+        <ul>
+          <li><code>corporate_finance.landing.policy_extract</code></li>
+          <li><code>corporate_finance.landing.claims_extract</code></li>
+          <li><code>corporate_finance.landing.reinsurance_extract</code></li>
+          <li><code>corporate_finance.landing.finance_extract</code></li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Governance + Metadata</h3>
+        <ul>
+          <li><code>SHOW GRANTS ON CATALOG corporate_finance</code></li>
+          <li><code>DESCRIBE SCHEMA EXTENDED ...reporting_fin_actuarial</code></li>
+          <li>Schema/table comments for business definitions</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Quality + Quarantine</h3>
+        <ul>
+          <li><code>dq_claims_summary</code>, <code>dq_policy_summary</code></li>
+          <li><code>dq_trend_metrics</code></li>
+          <li><code>claims_dq_quarantine</code>, <code>policy_dq_quarantine</code></li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Reporting + KPI</h3>
+        <ul>
+          <li><code>valuation_movement_bridge</code></li>
+          <li><code>gross_to_net_liability_view</code></li>
+          <li><code>portfolio_trend_metrics</code></li>
+          <li><code>valuation_kpi_snapshot</code></li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Audit + Time Travel</h3>
+        <ul>
+          <li><code>DESCRIBE HISTORY ...valuation_movement_bridge</code></li>
+          <li><code>VERSION AS OF</code> compare query</li>
+          <li><code>valuation_movement_snapshots</code></li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Genie Evidence</h3>
+        <ul>
+          <li><code>genie_finance_actuarial_metrics</code></li>
+          <li><code>genie_dq_status</code></li>
+          <li><code>genie_benchmark_catalog</code></li>
+          <li><code>genie_benchmark_expected_results</code></li>
+          <li><code>genie_benchmark_evaluations</code></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Step-by-Step Show Flow</h2>
+
+      <details open>
+        <summary>Step 1: Run setup and pipeline jobs (serverless)</summary>
+        <pre id="step1"><code>databricks jobs run-now 769475124317152 --profile DEFAULT
+databricks jobs run-now 351368716689061 --profile DEFAULT
+databricks jobs run-now 115436950087560 --profile DEFAULT
+databricks jobs run-now 939114343233793 --profile DEFAULT</code></pre>
+        <div class="copy-row"><button class="btn" onclick="copyText('step1')">Copy</button></div>
+      </details>
+
+      <details>
+        <summary>Step 2: Data foundation and controls</summary>
+        <pre id="step2"><code>SHOW SCHEMAS IN corporate_finance;
+SELECT * FROM corporate_finance.landing.claims_extract LIMIT 10;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.dq_claims_summary ORDER BY dq_run_timestamp DESC LIMIT 20;
+SELECT * FROM corporate_finance.quarantine_fin_actuarial.claims_dq_quarantine ORDER BY load_timestamp DESC LIMIT 20;</code></pre>
+        <div class="copy-row"><button class="btn" onclick="copyText('step2')">Copy</button></div>
+      </details>
+
+      <details>
+        <summary>Step 3: Reporting outputs and KPI trends</summary>
+        <pre id="step3"><code>SELECT * FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge ORDER BY as_at_date DESC, portfolio_code;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.gross_to_net_liability_view ORDER BY as_at_date DESC, portfolio_code;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.close_readiness_indicators ORDER BY as_at_date DESC;</code></pre>
+        <div class="copy-row"><button class="btn" onclick="copyText('step3')">Copy</button></div>
+      </details>
+
+      <details>
+        <summary>Step 4: Time travel and reproducibility</summary>
+        <pre id="step4"><code>DESCRIBE HISTORY corporate_finance.reporting_fin_actuarial.valuation_movement_bridge;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.valuation_movement_bridge VERSION AS OF 1;</code></pre>
+        <div class="copy-row"><button class="btn" onclick="copyText('step4')">Copy</button></div>
+      </details>
+
+      <details>
+        <summary>Step 5: Genie + benchmark evidence</summary>
+        <pre id="step5"><code>SELECT * FROM corporate_finance.reporting_fin_actuarial.genie_benchmark_catalog ORDER BY benchmark_id;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.genie_benchmark_expected_results ORDER BY generated_timestamp DESC;
+SELECT * FROM corporate_finance.reporting_fin_actuarial.genie_benchmark_evaluations ORDER BY evaluated_timestamp DESC;</code></pre>
+        <div class="copy-row"><button class="btn" onclick="copyText('step5')">Copy</button></div>
+      </details>
+    </section>
+  </div>
+
+  <script>
+    function copyText(id) {
+      const el = document.getElementById(id);
+      const text = el ? el.innerText : "";
+      navigator.clipboard.writeText(text).then(() => {
+        const btns = document.querySelectorAll("button");
+        btns.forEach((b) => {
+          if (b === document.activeElement) {
+            const original = b.textContent;
+            b.textContent = "Copied";
+            setTimeout(() => { b.textContent = original; }, 900);
+          }
+        });
+      }).catch(() => {
+        alert("Copy failed. You can still copy manually.");
+      });
+    }
+  </script>
+</body>
+</html>
