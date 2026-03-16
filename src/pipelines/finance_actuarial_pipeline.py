@@ -69,6 +69,10 @@ def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance
             F.sum("movement_amount").alias("movement_amount"),
         )
         .withColumn("movement_ratio", F.col("movement_amount") / F.when(F.col("opening_liability") == 0, F.lit(1)).otherwise(F.col("opening_liability")))
+        .withColumn("opening_liability", F.col("opening_liability").cast("decimal(18,1)"))
+        .withColumn("closing_liability", F.col("closing_liability").cast("decimal(21,3)"))
+        .withColumn("movement_amount", F.col("movement_amount").cast("decimal(20,2)"))
+        .withColumn("movement_ratio", F.col("movement_ratio").cast("decimal(38,19)"))
     )
     save_table(movement_bridge, CONFIG.gold_schema, "valuation_movement_bridge")
 
@@ -99,14 +103,14 @@ def build_gold_views(claims_silver: DataFrame, policy_silver: DataFrame, finance
         movement_bridge.select(
             "portfolio_code",
             "as_at_date",
-            F.col("opening_liability").cast("decimal(18,1)").alias("opening_liability"),
-            F.col("closing_liability").cast("decimal(21,3)").alias("closing_liability"),
-            F.col("movement_amount").cast("decimal(20,2)").alias("movement_amount"),
-            F.col("movement_ratio").cast("decimal(38,19)").alias("movement_ratio"),
+            "opening_liability",
+            "closing_liability",
+            "movement_amount",
+            "movement_ratio",
         )
         .withColumn("snapshot_timestamp", F.current_timestamp())
     )
-    save_table(snapshot_df, CONFIG.gold_schema, "valuation_movement_snapshots", mode="append")
+    save_table(snapshot_df, CONFIG.gold_schema, "valuation_movement_snapshots")
 
 
 def run_pipeline(spark: SparkSession) -> None:
